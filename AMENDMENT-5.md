@@ -1,0 +1,4 @@
+# AMENDMENT-5 (2026-10-09 IST) - pre-outcome bug fix in data acquisition; no label read
+
+First acquisition run: 22 assays (including highly studied proteins such as PTEN_HUMAN and GRB2_HUMAN) came back with empty annotation_score and n_pubmed 0. Cause: a UniProt query by entry name can return both the current entry and an inactive/merged stub for the same name, and the code let the stub overwrite the current entry. This would have wrongly marked well-studied proteins as unannotated, which would bias G1 directly.
+Fix (acquire_data.py): never let a stub (empty annotation_score) overwrite a non-stub row for the same entry name. Nothing else changes. The first run's outputs are superseded and not used for any analysis; the rerun's hashes are the only ones recorded in DATA_HASHES.tsv. Entries that are stubs only remain "uniprot_entry_not_found". No DMS score file has been opened.
