@@ -1,0 +1,8 @@
+# AMENDMENT-6 (2026-10-09 IST) - pre-outcome; written and committed before any DMS score file is opened
+
+Two scoped substitutions forced by what was actually acquired, plus the frozen analysis code (analysis.py, run_scoring.py committed before scoring runs):
+1. Cluster unit: InterPro family components were NOT acquired. All "family-cluster" bootstraps, grouped folds and "family-block" permutations use the UniProt_ID (protein) as the cluster. Assays on the same protein stay together. This is weaker than family clustering; it is stated as a limitation, and no gate threshold changes.
+2. G3 baseline: leave-one-taxon-group-out cannot use a taxon covariate (the held-out taxon is unseen). The G3 baseline is therefore log(seq_len) + WTLL; the full model adds log(1+n_pubmed) and annotation_score. Model: ridge (lambda 1, standardized features). The G3 folds are Human, Eukaryote, Prokaryote on the discovery set. The Virus fold is computed and reported as exploratory only. Out-of-fold R2 uses each held-out fold's training-set mean as the reference. Permutation: protein-level exposure vectors shuffled across proteins, 2000 permutations, seed 12345.
+3. G1 and G2 partial Spearman controls rank(log seq_len) and taxon dummies; the family-cluster bootstrap becomes a protein-cluster bootstrap (10,000 resamples, seed 12345). G2 is evaluated once on the year >= 2022 set.
+4. Per-assay scoring: single substitutions only; variants whose wt residue does not match target_seq at the stated position are skipped and counted; assays with fewer than 50 remaining variants after that get no rho and are dropped from analysis (they are reported).
+5. Everything else (gates, thresholds, direction, failure policy) is unchanged.
