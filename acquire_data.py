@@ -32,6 +32,10 @@ for i in range(0, len(ids), 40):
         p = line.split("\t")
         if len(p) < 6:
             print("SHORTROW", len(p), line[:80]); p = p + [""] * (6 - len(p))
+        # ProteinGym entry names can match both the current entry and an inactive/merged stub
+        # (empty annotation score). Keep the non-stub row; never let a stub overwrite it.
+        if p[0] in recs and recs[p[0]][2] != "" and p[2] == "":
+            continue
         recs[p[0]] = p
 raw = "\n".join("\t".join(recs[k]) for k in sorted(recs))
 open("uniprot_raw.tsv", "w").write(raw)
