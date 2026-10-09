@@ -1,0 +1,16 @@
+key	value
+locked_at	2026-10-09 IST
+runtime_type	Google Colab free CPU (no accelerator), Python 3.13.16
+runtime_ram_total_gb	12.67
+runtime_cpus	2
+torch	2.11.0+cpu
+measurement	one fp32 forward pass, ESM-2 650M (facebook/esm2_t33_650M_UR50D), random 1022-aa dummy sequence (seed 0), esm_wt_marginal.py --measure-ram
+peak_rss_gb	4.06
+rule_threshold_gb	9
+model_chosen_for_all_assays	ESM-2 650M (facebook/esm2_t33_650M_UR50D), fp32
+esm2_training_data	UniRef from UniProt 2021_04 (github.com/facebookresearch/esm/discussions/388)
+external_cutoff	source publication date >= 2022-01-01
+proteingym_release_and_sha256	NOT YET ACQUIRED - recorded in DATA_HASHES.tsv committed before any label column is read
+uniprot_release_and_sha256	NOT YET ACQUIRED - recorded in DATA_HASHES.tsv committed before any label column is read
+labels_read_at_lock	none
+scores_read_at_lock	none
