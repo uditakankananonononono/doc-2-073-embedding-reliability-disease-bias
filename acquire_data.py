@@ -14,7 +14,8 @@ def h(path, algo):
     return m.hexdigest()
 rows = []
 for fn in EXPECT_MD5:
-    get(Z % fn, fn)
+    import os
+    if not os.path.exists(fn): get(Z % fn, fn)
     md5, sha = h(fn, "md5"), h(fn, "sha256")
     rows.append((fn, "zenodo.org/records/15293562", md5, md5 == EXPECT_MD5[fn], sha))
 ref = pd.read_csv("DMS_substitutions.csv")
@@ -29,6 +30,8 @@ for i in range(0, len(ids), 40):
         txt = r.read().decode()
     for line in txt.strip().split("\n")[1:]:
         p = line.split("\t")
+        if len(p) < 6:
+            print("SHORTROW", len(p), line[:80]); p = p + [""] * (6 - len(p))
         recs[p[0]] = p
 raw = "\n".join("\t".join(recs[k]) for k in sorted(recs))
 open("uniprot_raw.tsv", "w").write(raw)
